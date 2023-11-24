@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\View\View;
-
-class DashboardController extends Controller
+class HomeFeedController extends Controller
 {
-    public function DashboardPage(){
+    public function HomeFeedPage(){
         if(Session::has('email')){
 
             $ifPost=DB::table('posts')
@@ -21,9 +19,7 @@ class DashboardController extends Controller
                  ->get();
                //  dd($post);  
 
-            return View('pages.dashboard.dashboard-page',compact(['ifPost','posts']));
+            return View('pages.dashboard.home-feed-page',compact(['ifPost','posts']));
         }
-
-       
     }
 }

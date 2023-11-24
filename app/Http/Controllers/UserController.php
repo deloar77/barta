@@ -7,6 +7,7 @@ use App\Http\Requests\UserSignInrequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 //use Illuminate\Support\Facades\View;
 use Illuminate\View\View; 
@@ -186,6 +187,7 @@ public function UserRegistration(UserEntollmentrequets $request){
             return redirect()->route('user-registration');
           } else {
             session()->put('email',$user->email);
+            Session::put('user_id',$user->id);
             
             return redirect('/dashboard');
           }
@@ -195,9 +197,13 @@ public function UserRegistration(UserEntollmentrequets $request){
       }
  }
 
- public function UserLogout(){
+ public function UserLogout(Request $request){
     if(session()->has('email')){
         session()->pull('email');
+       // $request->session()->forget('email');
+        $request->session()->forget('user_id');
+        $request->session()->flush();
+
     }
     return redirect('/LoginPage');
  }

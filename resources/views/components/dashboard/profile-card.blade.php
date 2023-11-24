@@ -4,6 +4,7 @@
         <h1>name</h1>
         <p>ethics</p>
         <p>{{session('email')}}</p>
+        <p>{{Session::get('user_id')}}</p>
        
     
         <div class="flex mb-6 mt-6 space-x-2">
