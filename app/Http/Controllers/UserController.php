@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserEntollmentrequets;
 use App\Http\Requests\UserSignInrequest;
+use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -36,20 +39,25 @@ public function ProfileEditPage(){
     if(session()->has('email')){
     //  dd(session('email'));
 
-      $ifProfile= DB::table('profiles')
-              ->where('email',session('email'))
-              ->exists();
+      // $ifProfile= DB::table('profiles')
+      //         ->where('email',session('email'))
+      //         ->exists();
+              $ifProfile=Profile::where('email',session('email'))->exists();
+
              // dd($ifProfile);
              if(!$ifProfile){
-                $profile=DB::table('profiles')
-                ->where('email',session('email'))
-                ->first();
+                // $profile=DB::table('profiles')
+                // ->where('email',session('email'))
+                // ->first();
+                $profile=Profile::where('email',session('email'))->first();
               return View('pages.dashboard.profile-edit-page',compact(['ifProfile','profile']));
              } else {
-                  $profile=DB::table('profiles')
-                  ->where('email',session('email'))
-                  ->first();
+                  // $profile=DB::table('profiles')
+                  // ->where('email',session('email'))
+                  // ->first();
                  // dd($profiles);
+
+                 $profile=Profile::where('email',session('email'))->first();
                 return View('pages.dashboard.profile-edit-page',compact(['ifProfile','profile']));
              }
             
@@ -73,29 +81,46 @@ public function profileCreate(Request $request){
           $ext = $image->extension();
          // dd($ext);
           $file=time().".".$ext;
-          $image->storeAs('public/profile',$file);
+          $image->storeAs('/public/profile/',$file);
           $profile['image']=$file;
 
     } 
-    DB::table('profiles')->insert($profile);
+   // DB::table('profiles')->insert($profile);
+     Profile::insert($profile);
     return redirect()->back();
 }
 public function profileUpdate(Request $request,$id){
+
+  //  $profiles=DB::table('profiles')->where('id',$id)->first();
+  $profiles=Profile::where('id',$id)->first();
+   //dd($profiles);
     $profile=[];
     $profile['address']=$request->address;
     $profile['bio']=$request->bio;
     $profile['email']=$request->email;
-   
+   // dd($profiles);
+ // dd($profiles->image);
+ //dd($request->image);
+ //dd($request->hasFile('image'));
     if($request->hasFile('image')){
+          $destination=storage_path("public/profile/".$profiles->image);
+         // dd($destination);
+          
+          if(File::exists($destination)){
+           //  dd($destination);
+            File::delete($destination);
+          }
           $image=$request->file('image');
-          $ext = $image->extension();
+          $ext = $image->getClientOriginalExtension();
          // dd($ext);
           $file=time().".".$ext;
-          $image->storeAs('public/profile',$file);
+          $image->storeAs('/public/profile/',$file);
           $profile['image']=$file;
 
     } 
-    DB::table('profiles')->where('id',$id)->update($profile);
+   
+   // DB::table('profiles')->where('id',$id)->update($profile);
+   Profile::where('id',$id)->update($profile);
     return redirect()->back();
 }
 
@@ -138,13 +163,20 @@ public function UserRegistration(UserEntollmentrequets $request){
         $email=$request->email;
         $password=$request->password;
        // dd($request->all());
-       $user=  DB::table('users')->insert([
-              'fname'=>$fname,
-              'lname'=>$lname,
-              'uname'=>$uname,
-              'email'=>$email,
-              'password'=>Hash::make($password)
-          ]); 
+      //  $user=  DB::table('users')->insert([
+      //         'fname'=>$fname,
+      //         'lname'=>$lname,
+      //         'uname'=>$uname,
+      //         'email'=>$email,
+      //         'password'=>Hash::make($password)
+      //     ]); 
+      $user = User::insert([
+        'fname'=>$fname,
+        'lname'=>$lname,
+        'uname'=>$uname,
+        'email'=>$email,
+        'password'=>Hash::make($password)
+    ]); 
           return redirect('/LoginPage');
 
   }
@@ -180,7 +212,8 @@ public function UserRegistration(UserEntollmentrequets $request){
         $email=$request->email;
         $password=$request->password;
           // dd($email,$password);
-          $user = DB::table('users')->where('email',$email)->first();
+        //  $user = DB::table('users')->where('email',$email)->first();
+         $user=  User::where('email',$email)->first();
           // dd($user);
          // dd($user->email);
           if(!$user || !Hash::check($password,$user->password)){

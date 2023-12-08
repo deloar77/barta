@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FindUserContoller;
 use App\Http\Controllers\HomeFeedController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,3 +47,10 @@ Route::get('/PostDelete/{id}/{user_id}',[PostController::class,'PostDelete']);
 
 //homefeedpage
 Route::get('HomeFeedPage',[HomeFeedController::class,'HomeFeedPage']);
+
+//search user route
+Route::get('/search',[SearchController::class,'Search']);
+Route::get('/FindUser/{id}',[FindUserContoller::class,'FindUser']);
+
+Route::get('/CommentPage/{post_id}/{user_id}',[CommentController::class,'CommentPage']);
+Route::post('/CreateComment/{user_id}/{post_id}',[CommentController::class,'CreateComment']);

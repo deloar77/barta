@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostFormrequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -13,10 +14,13 @@ class PostController extends Controller
 
      public function PostEditPage($id){
       // echo Session::get('user_id');
-       $posts=DB::table('posts')
-          ->where('id',$id)
-          ->where('user_id',Session::get('user_id'))
-          ->first();
+      //  $posts=DB::table('posts')
+      //     ->where('id',$id)
+      //     ->where('user_id',Session::get('user_id'))
+      //     ->first();
+      $posts=Post::where('id',$id)
+      ->where('user_id',Session::get('user_id'))
+      ->first();
 
         return View('pages.dashboard.post-edit-page',compact(['posts']));
      }
@@ -37,7 +41,8 @@ class PostController extends Controller
               $post['image']=$file;
     
         } 
-        DB::table('posts')->insert($post);
+      //   DB::table('posts')->insert($post);
+      Post::insert($post);
         return redirect()->back();
     }
 
@@ -60,7 +65,8 @@ class PostController extends Controller
               $post['image']=$file;
     
         } 
-        DB::table('posts')->where('id',$id)->where('user_id',$user_id)->update($post);
+      //   DB::table('posts')->where('id',$id)->where('user_id',$user_id)->update($post);
+        Post::where('id',$id)->where('user_id',$user_id)->update($post);
         return redirect('/dashboard');
        }
          
@@ -68,10 +74,11 @@ class PostController extends Controller
     }
 
     public function PostDelete($id,$user_id){
-         DB::table('posts')
-          ->where('id',$id)
-          ->where('user_id',$user_id)
-          ->delete();
+         // DB::table('posts')
+         //  ->where('id',$id)
+         //  ->where('user_id',$user_id)
+         //  ->delete();
+         Post::where('id',$id)->where('user_id',$user_id)->delete();
           return redirect()->back();
     }
 }

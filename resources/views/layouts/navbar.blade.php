@@ -14,10 +14,16 @@
             </a>
           </div>
        <!- primary nav->
-        <div class=" hidden md:flex items-center space-x-2">
+        <div class=" hidden md:flex items-center space-x-2 space-y-1">
           <a href="" class="block text-gray-700 hover:text-gray-900">Discover</a>
-          <a href=""  class="block text-gray-700 hover:text-gray-900">For you</a>
-          <a href=""  class="block text-gray-700 hover:text-gray-900">People</a>
+          <a href="{{url("/dashboard")}}"  class="block text-gray-700 hover:text-gray-900">dashboard</a>
+          <form method="GET" action="{{url('/search')}}">
+            @csrf
+            <input type="search" name="query" placeholder="search user">
+            <button class="w-5" type="submit">search</button>
+          </form>
+          
+          
         </div>
         </div>
   
@@ -64,6 +70,7 @@
             <a href="" class="block py-2 px-2 text-sm text-blue-400 hover:text-blue-900">SignUp</a>
      </div>
   </nav>
+     
   <script>
     const btn = document.querySelector('button.mobile-menu-button')
     const menu =document.querySelector('.mobile-menu')

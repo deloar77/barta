@@ -1,13 +1,11 @@
 <div class="flex justify-center mt-12 ">
     <div class="bg-gray-100 max-w-md flex flex-col justify-center items-center p-2 rounded border border-black">
-        <a href="{{url('ProfileEditPage')}}">
-            <img class="block h-32 w-32 rounded-full" src="{{$ifProfile===true?asset('/storage/profile/'.$profile->image):asset('/img/profile.jpeg')}}" alt="">
-        </a>
-       
-        <h1>{{$profile->user->fname??''}}</h1>
+        <img class="block h-32 w-32 rounded-full" src="{{$user->profile->image?asset('/storage/profile/'.$user->profile->image):asset('img/profile.jpeg')}}" alt="">
+        <h1>{{$user->fname}}</h1>
         <p>ethics</p>
-        <p>{{$profile->user->email??''}}</p>
-        <p>{{Session::get('user_id')}}</p>
+       
+        <p>{{$user->id}}</p>
+        {{-- {{$user->profile->image}} --}}
        
     
         <div class="flex mb-6 mt-6 space-x-2">
