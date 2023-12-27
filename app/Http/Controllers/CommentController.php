@@ -11,6 +11,7 @@ use Illuminate\View\View;
 class CommentController extends Controller
 {
     public function CommentPage($post_id,$user_id){
+        
        // dd($post_id,$user_id);
     //    $isComment=DB::table('comments')->exists();
        //dd($ifComment);

@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->text('content');
             $table->string('image')->nullable();
+            $table->string('email',50);
+           
             // $table->unsignedBigInteger('user_id');
             // $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');

@@ -29,6 +29,8 @@ class PostController extends Controller
         $post=[];
         $post['content']=$request->content;
         $post['user_id']=Session::get('user_id');
+        $post['email']=Session::get('email');
+        
      //  dd($post);
        
        

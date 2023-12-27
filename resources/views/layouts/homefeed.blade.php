@@ -10,7 +10,11 @@
 </head>
 <body>
   
-
+<div id="app">
+    <component-a>
+      
+     </component-a>
+</div>
 <div>
     @yield('content')
 </div>

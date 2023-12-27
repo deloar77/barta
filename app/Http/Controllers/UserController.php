@@ -177,7 +177,7 @@ public function UserRegistration(UserEntollmentrequets $request){
         'email'=>$email,
         'password'=>Hash::make($password)
     ]); 
-          return redirect('/LoginPage');
+          return redirect('/LoginPage')->with('success','get logged in here');
 
   }
 
